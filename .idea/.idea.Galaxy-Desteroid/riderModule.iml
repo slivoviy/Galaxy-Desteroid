@@ -2,7 +2,7 @@
 <module type="RIDER_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$/../..">
-      <excludeFolder url="file://$MODULE_DIR$/../../Builds" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Library/Artifacts" />
       <excludeFolder url="file://$MODULE_DIR$/../../Library/BuildPlayerData" />
       <excludeFolder url="file://$MODULE_DIR$/../../Library/PackageCache/com.unity.2d.animation@5.0.6" />
       <excludeFolder url="file://$MODULE_DIR$/../../Library/PackageCache/com.unity.2d.common@4.0.3" />
@@ -57,7 +57,8 @@
       <excludeFolder url="file://$MODULE_DIR$/../../Library/PackageCache/com.unity.ugui@1.0.0" />
       <excludeFolder url="file://$MODULE_DIR$/../../Library/PackageManager" />
       <excludeFolder url="file://$MODULE_DIR$/../../Library/StateCache/LayerSettings/9e" />
-      <excludeFolder url="file://$MODULE_DIR$/../../Temp" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Library/StateCache/MainStageHierarchy" />
+      <excludeFolder url="file://$MODULE_DIR$/../../Library/StateCache/SceneView/a9" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
