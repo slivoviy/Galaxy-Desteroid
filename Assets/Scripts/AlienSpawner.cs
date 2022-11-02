@@ -3,16 +3,16 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class AlienSpawner : MonoBehaviour {
+    [SerializeField] private float spawnTimer = 1f;
+    
     private float _timer;
     
-    public float spawnTimer = 1f;
-    
-    void Start() {
+    private void Start() {
         _timer = spawnTimer;
     }
 
 
-    void Update() {
+    private void Update() {
         if (Math.Abs(_timer - spawnTimer) < 0.001f) {
             var x = Random.Range(-1.3f, 2.3f);
             var alien = ObjectPooler.SharedInstance.GetPooledObject(13);

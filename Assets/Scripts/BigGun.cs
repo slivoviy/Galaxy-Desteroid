@@ -2,12 +2,12 @@
 using UnityEngine;
 
 public class BigGun : MonoBehaviour {
-    public GameObject[] smallGuns;
+    [SerializeField] private GameObject[] smallGuns;
+    
     private Vector3[] _smallGunPositions;
-
     private bool _active;
 
-    private void Start() {
+    private void Awake() {
         _active = true;
         _smallGunPositions = new Vector3[smallGuns.Length];
         for (var i = 0; i < smallGuns.Length; ++i) {

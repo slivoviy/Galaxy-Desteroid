@@ -2,13 +2,12 @@
 using Random = UnityEngine.Random;
 
 public class Asteroid : MonoBehaviour {
-    public float speed = 0.06f;
+    [SerializeField] private float speed = 0.06f;
     
     private float _rotationSpeed;
     private float _torqueSpeed;
 
-
-    void Start() {
+    private void Start() {
         var scale = Random.Range(0.3f, 0.5f);
         var size = transform.localScale;
         transform.localScale = new Vector3(size.x * scale, size.y * scale, size.z * scale);
@@ -17,23 +16,23 @@ public class Asteroid : MonoBehaviour {
         _torqueSpeed = Random.Range(-0.005f, 0.005f);
     }
 
-    void FixedUpdate() {
+    private void FixedUpdate() {
         transform.position += Vector3.down * speed;
         transform.position += Vector3.left * _torqueSpeed;
 
         transform.Rotate(0, 0, _rotationSpeed);
     }
 
-    void OnTriggerEnter2D(Collider2D col) {
-        if (col.CompareTag("Laser")) {
-            col.gameObject.SetActive(false);
-            ScoreCounter.Score++;
+    private void OnTriggerEnter2D(Collider2D col) {
+        if (!col.CompareTag("Laser")) return;
+        
+        col.gameObject.SetActive(false);
+        ScoreCounter.Score++;
             
-            var explosion = ObjectPooler.SharedInstance.GetPooledObject(12);
-            explosion.transform.position = transform.position;
-            explosion.SetActive(true);
+        var explosion = ObjectPooler.SharedInstance.GetPooledObject(12);
+        explosion.transform.position = transform.position;
+        explosion.SetActive(true);
 
-            gameObject.SetActive(false);
-        }
+        gameObject.SetActive(false);
     }
 }

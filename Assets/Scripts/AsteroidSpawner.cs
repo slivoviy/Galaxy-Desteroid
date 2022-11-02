@@ -3,15 +3,15 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class AsteroidSpawner : MonoBehaviour {
+    [SerializeField] private float spawnTimer = 0.5f;
+    
     private float _timer;
 
-    public float spawnTimer = 0.5f;
-
-    void Start() {
+    private void Start() {
         _timer = spawnTimer;
     }
 
-    void FixedUpdate() {
+    private void FixedUpdate() {
         if (Math.Abs(_timer - spawnTimer) < 0.001f) {
             var x = Random.Range(-2.5f, 2.5f);
             var asteroid = ObjectPooler.SharedInstance.GetPooledObject(Random.Range(0, 6));

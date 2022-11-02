@@ -3,17 +3,15 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Alien : MonoBehaviour {
+    [SerializeField] private float speed = 0.08f;
+    [SerializeField] private float xSpeed = 0.08f;
+    [SerializeField] private float fireRate = 1.5f;
+    
     private float _startX;
-
-    public float speed = 0.08f;
-    public float xSpeed = 0.08f;
-    
-    public float fireRate = 1.5f;
     private float _timer;
-
     private bool _moveLeft;
-    
-    void Start() {
+
+    private void Start() {
         _startX = transform.position.x;
         _moveLeft = true;
         _timer = 2.5f;
@@ -24,7 +22,7 @@ public class Alien : MonoBehaviour {
         _moveLeft = true;
     }
 
-    void FixedUpdate() {
+    private void FixedUpdate() {
         transform.position += Vector3.down * speed;
 
         if (_moveLeft) {
@@ -57,53 +55,53 @@ public class Alien : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D col) {
-        if (col.CompareTag("Laser")) {
-            col.gameObject.SetActive(false);
+        if (!col.CompareTag("Laser")) return;
+        
+        col.gameObject.SetActive(false);
 
-            var explosion = ObjectPooler.SharedInstance.GetPooledObject(12);
-            explosion.transform.position = transform.position;
-            explosion.SetActive(true);
+        var explosion = ObjectPooler.SharedInstance.GetPooledObject(12);
+        explosion.transform.position = transform.position;
+        explosion.SetActive(true);
 
-            gameObject.SetActive(false);
+        gameObject.SetActive(false);
             
-            DropAGun();
-        }
+        DropAGun();
     }
 
     private void DropAGun() {
         var rand = Random.Range(1, 50);
-        if (rand <= 10) {
-            GameObject droppedItem;
-            switch (rand) {
-                case 1:
-                    droppedItem = ObjectPooler.SharedInstance.GetPooledObject(15);
-                    break;
-                case 2:
-                    droppedItem = ObjectPooler.SharedInstance.GetPooledObject(16);
-                    break;
-                case 3:
-                    droppedItem = ObjectPooler.SharedInstance.GetPooledObject(17);
-                    break;
-                case 4:
-                    droppedItem = ObjectPooler.SharedInstance.GetPooledObject(18);
-                    break;
-                case 5:
-                    droppedItem = ObjectPooler.SharedInstance.GetPooledObject(19);
-                    break;
-                case 6:
-                case 7:
-                case 8:
-                case 9:
-                case 10:
-                    droppedItem = ObjectPooler.SharedInstance.GetPooledObject(20);
-                    break;
-                default:
-                    droppedItem = ObjectPooler.SharedInstance.GetPooledObject(12);
-                    break;
-            }
-
-            droppedItem.transform.position = transform.position;
-            droppedItem.SetActive(true);
+        if (rand > 10) return;
+        
+        GameObject droppedItem;
+        switch (rand) {
+            case 1:
+                droppedItem = ObjectPooler.SharedInstance.GetPooledObject(15);
+                break;
+            case 2:
+                droppedItem = ObjectPooler.SharedInstance.GetPooledObject(16);
+                break;
+            case 3:
+                droppedItem = ObjectPooler.SharedInstance.GetPooledObject(17);
+                break;
+            case 4:
+                droppedItem = ObjectPooler.SharedInstance.GetPooledObject(18);
+                break;
+            case 5:
+                droppedItem = ObjectPooler.SharedInstance.GetPooledObject(19);
+                break;
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+                droppedItem = ObjectPooler.SharedInstance.GetPooledObject(20);
+                break;
+            default:
+                droppedItem = ObjectPooler.SharedInstance.GetPooledObject(12);
+                break;
         }
+
+        droppedItem.transform.position = transform.position;
+        droppedItem.SetActive(true);
     }
 }

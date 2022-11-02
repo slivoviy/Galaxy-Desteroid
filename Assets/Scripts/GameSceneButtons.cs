@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameSceneButtons : MonoBehaviour {
-    public Animator pauseAnim;
-
-    public GameObject pauseMenuUI;
+    [SerializeField] private Animator pauseAnim;
+    [SerializeField] private GameObject pauseMenuUI;
+    
     private static readonly int IsOpened = Animator.StringToHash("IsOpened");
 
     public void Pause() {
@@ -35,7 +34,7 @@ public class GameSceneButtons : MonoBehaviour {
         pauseMenuUI.SetActive(false);
     }
 
-    private IEnumerator LoadScene(String scene) {
+    private IEnumerator LoadScene(string scene) {
         pauseAnim.SetBool(IsOpened, false);
 
         yield return new WaitForSecondsRealtime(0.667f);

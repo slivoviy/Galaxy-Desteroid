@@ -5,22 +5,21 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
     private int _currentGun;
     private int _ammo;
-    private int _lifes = 3;
+    private int _hp = 3;
 
     private float _fireRate = 0.25f;
     private float _timer;
 
-    public float speed = 2f;
+    [SerializeField] private float speed = 2f;
+    [SerializeField] private GameObject hurtPanel;
+    [SerializeField] private GameObject[] lifeUI;
 
-    public GameObject hurtPanel;
-    public GameObject[] lifeUI;
-
-    void Start() {
+    private void Start() {
         _timer = _fireRate;
         _currentGun = 0;
     }
 
-    void FixedUpdate() {
+    private void FixedUpdate() {
         if (_timer < 0) {
             _timer = _fireRate;
         }
@@ -61,10 +60,9 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D col) {
-        int gun;
-        bool isParsable = Int32.TryParse(col.tag, out gun);
+        var isInt = int.TryParse(col.tag, out var gun);
 
-        if (isParsable) {
+        if (isInt) {
             _currentGun = gun;
             switch (_currentGun) {
                 case 1:
@@ -101,8 +99,8 @@ public class PlayerController : MonoBehaviour {
                 col.gameObject.SetActive(false);
             }
             else if (!col.CompareTag("Deactivator")) {
-                _lifes--;
-                if (_lifes == 0) {
+                --_hp;
+                if (_hp == 0) {
                     var score = PlayerPrefs.GetInt("score", 0);
                     if (ScoreCounter.Score > score) {
                         PlayerPrefs.SetInt("score", ScoreCounter.Score);
@@ -113,18 +111,18 @@ public class PlayerController : MonoBehaviour {
 
                     StartCoroutine(ShowHurtPanel());
                     
-                    lifeUI[_lifes].SetActive(false);
+                    lifeUI[_hp].SetActive(false);
                     gameObject.SetActive(false);
                     var explosion = ObjectPooler.SharedInstance.GetPooledObject(12);
                     explosion.transform.position = transform.position;
                     explosion.SetActive(true);
 
-                    if (!col.CompareTag("Alien Laser")) {
-                        col.gameObject.SetActive(false);
-                        var colExplosion = ObjectPooler.SharedInstance.GetPooledObject(12);
-                        colExplosion.transform.position = col.transform.position;
-                        colExplosion.SetActive(true);
-                    }
+                    if (col.CompareTag("Alien Laser")) return;
+                    
+                    col.gameObject.SetActive(false);
+                    var colExplosion = ObjectPooler.SharedInstance.GetPooledObject(12);
+                    colExplosion.transform.position = col.transform.position;
+                    colExplosion.SetActive(true);
                 }
                 else {
                     col.gameObject.SetActive(false);
@@ -132,7 +130,7 @@ public class PlayerController : MonoBehaviour {
                     colExplosion.transform.position = col.transform.position;
                     colExplosion.SetActive(true);
 
-                    lifeUI[_lifes].SetActive(false);
+                    lifeUI[_hp].SetActive(false);
 
                     StartCoroutine(ShowHurtPanel());
                     
